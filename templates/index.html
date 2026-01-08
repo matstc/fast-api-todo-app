@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todoo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <style>
+        /* CSS Reset */
+        html, body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            line-height: 1;
+            font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
+            background: #f8f9fa;
+            margin: 2em;
+            color: #222;
+        }
+        ul {
+            list-style: none;
+        }
+        /* Custom styles */
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5em;
+            font-weight: 700;
+        }
+        .container {
+            max-width: 768px;
+            margin: 3em auto 0 auto;
+            padding: 0 1em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        form {
+            margin-bottom: 2em;
+            background: #fff;
+            padding: 1.5em 1em 1em 1em;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            max-width: 400px;
+            width: 100%;
+        }
+        #todos {
+            width: 100%;
+            max-width: 400px;
+        }
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 0.3em;
+            margin-top: 1em;
+            text-align: left;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 0.5em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
+            margin-bottom: 0.5em;
+            box-sizing: border-box;
+        }
+        textarea {
+            min-height: 70px;
+            resize: vertical;
+        }
+        button[type="submit"] {
+            background: #0057b8;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 0.7em 1.5em;
+            font-size: 1em;
+            font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
+            cursor: pointer;
+            margin-top: 1em;
+            margin-right: 0.5em;
+            transition: background 0.2s;
+            display: inline-block;
+        }
+        button[type="submit"]:hover {
+            background: #003e8a;
+        }
+        .delete-btn {
+            background: #c00;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 2em;
+            height: 2em;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.2em 0 0 0.5em;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+        .delete-btn:hover {
+            background: #900;
+        }
+        .todo {
+            margin-bottom: 1em;
+            background: #fff;
+            padding: 1em;
+            border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1em;
+        }
+        .todo-main {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            flex: 1 1 auto;
+            gap: 0.2em;
+            width: 100%;
+        }
+        .todo-title {
+            font-weight: 700;
+            text-align: left;
+        }
+        .todo-desc {
+            color: #555;
+            text-align: left;
+            margin: 0.2em 0 0.5em 0;
+            white-space: pre-line;
+            display: block;
+            width: 100%;
+        }
+        .completed .todo-title, .completed .todo-desc {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .complete-checkbox {
+            width: 1.2em;
+            height: 1.2em;
+            accent-color: #0057b8;
+            margin-right: 0.5em;
+        }
+        .delete-btn {
+            background: #c00;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 2em;
+            height: 2em;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.2em 0 0 0.5em;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+        .delete-btn:hover {
+            background: #900;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Todoo</h1>
+    <form id="add-todo-form" hx-post="/todos" hx-target="#todos" hx-swap="afterbegin">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" placeholder="Title" required>
+            <label for="description">Description</label>
+            <textarea id="description" name="description" placeholder="Description"></textarea>
+            <button type="submit">Add Todo</button>
+        </form>
+    <script>
+        document.getElementById('add-todo-form').addEventListener('htmx:afterOnLoad', function(evt) {
+            this.reset();
+        });
+    </script>
+    <div id="todos" hx-get="/todos" hx-trigger="load">
+        <!-- Todos will be loaded here -->
+    </div>
+    </div>
+</body>
+</html>
