@@ -13,12 +13,47 @@
             padding: 0;
             box-sizing: border-box;
         }
+        
+        /* CSS Variables for Light and Dark Themes */
+        :root {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #fff;
+            --text-primary: #222;
+            --text-secondary: #555;
+            --text-muted: #888;
+            --border-color: #ccc;
+            --button-bg: #0057b8;
+            --button-hover: #003e8a;
+            --delete-bg: #c00;
+            --delete-hover: #900;
+            --shadow-light: rgba(0,0,0,0.04);
+            --shadow-medium: rgba(0,0,0,0.03);
+            --accent-color: #0057b8;
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --text-muted: #888;
+            --border-color: #444;
+            --button-bg: #4a90e2;
+            --button-hover: #357abd;
+            --delete-bg: #e74c3c;
+            --delete-hover: #c0392b;
+            --shadow-light: rgba(0,0,0,0.3);
+            --shadow-medium: rgba(0,0,0,0.2);
+            --accent-color: #4a90e2;
+        }
+        
         body {
             line-height: 1;
             font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
-            background: #f8f9fa;
+            background: var(--bg-primary);
             margin: 2em;
-            color: #222;
+            color: var(--text-primary);
+            transition: background 0.3s ease, color 0.3s ease;
         }
         ul {
             list-style: none;
@@ -39,12 +74,13 @@
         }
         form {
             margin-bottom: 2em;
-            background: #fff;
+            background: var(--bg-secondary);
             padding: 1.5em 1em 1em 1em;
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            box-shadow: 0 2px 8px var(--shadow-light);
             max-width: 400px;
             width: 100%;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
         }
         #todos {
             width: 100%;
@@ -60,19 +96,22 @@
         input[type="text"], textarea {
             width: 100%;
             padding: 0.5em;
-            border: 1px solid #ccc;
+            border: 1px solid var(--border-color);
             border-radius: 4px;
             font-size: 1em;
             font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
             margin-bottom: 0.5em;
             box-sizing: border-box;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
         textarea {
             min-height: 70px;
             resize: vertical;
         }
         button[type="submit"] {
-            background: #0057b8;
+            background: var(--button-bg);
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -86,10 +125,10 @@
             display: inline-block;
         }
         button[type="submit"]:hover {
-            background: #003e8a;
+            background: var(--button-hover);
         }
         .delete-btn {
-            background: #c00;
+            background: var(--delete-bg);
             color: #fff;
             border: none;
             border-radius: 50%;
@@ -106,18 +145,19 @@
             flex-shrink: 0;
         }
         .delete-btn:hover {
-            background: #900;
+            background: var(--delete-hover);
         }
         .todo {
             margin-bottom: 1em;
-            background: #fff;
+            background: var(--bg-secondary);
             padding: 1em;
             border-radius: 6px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+            box-shadow: 0 1px 4px var(--shadow-medium);
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
             gap: 1em;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
         }
         .todo-main {
             display: flex;
@@ -132,46 +172,62 @@
             text-align: left;
         }
         .todo-desc {
-            color: #555;
+            color: var(--text-secondary);
             text-align: left;
             margin: 0.2em 0 0.5em 0;
             white-space: pre-line;
             display: block;
             width: 100%;
+            transition: color 0.3s ease;
         }
         .completed .todo-title, .completed .todo-desc {
             text-decoration: line-through;
-            color: #888;
+            color: var(--text-muted);
         }
         .complete-checkbox {
             width: 1.2em;
             height: 1.2em;
-            accent-color: #0057b8;
+            accent-color: var(--accent-color);
             margin-right: 0.5em;
         }
-        .delete-btn {
-            background: #c00;
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 2em;
-            height: 2em;
-            font-size: 1.2em;
-            font-weight: bold;
+        
+        /* Dark mode toggle styles */
+        .theme-toggle {
+            position: fixed;
+            top: 1em;
+            right: 1em;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            padding: 0.5em 1em;
             cursor: pointer;
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin: 0.2em 0 0 0.5em;
-            transition: background 0.2s;
-            flex-shrink: 0;
+            gap: 0.5em;
+            font-size: 1em;
+            font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
+            color: var(--text-primary);
+            box-shadow: 0 2px 8px var(--shadow-light);
+            transition: all 0.3s ease;
+            z-index: 1000;
         }
-        .delete-btn:hover {
-            background: #900;
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px var(--shadow-light);
+        }
+        .theme-toggle-icon {
+            font-size: 1.2em;
+            display: inline-block;
         }
     </style>
 </head>
 <body>
+    <!-- Dark Mode Toggle Button -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <span class="theme-toggle-icon" id="theme-icon">🌙</span>
+        <span id="theme-text">Dark</span>
+    </button>
+    
     <div class="container">
         <h1>Todoo</h1>
     <form id="add-todo-form" hx-post="/todos" hx-target="#todos" hx-swap="afterbegin">
@@ -184,6 +240,39 @@
     <script>
         document.getElementById('add-todo-form').addEventListener('htmx:afterOnLoad', function(evt) {
             this.reset();
+        });
+        
+        // Dark mode toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeText = document.getElementById('theme-text');
+        const htmlElement = document.documentElement;
+        
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        
+        // Apply the theme immediately on page load
+        if (currentTheme === 'dark') {
+            htmlElement.setAttribute('data-theme', 'dark');
+            themeIcon.textContent = '☀️';
+            themeText.textContent = 'Light';
+        }
+        
+        // Toggle theme on button click
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                htmlElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark';
+            } else {
+                htmlElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Light';
+            }
         });
     </script>
     <div id="todos" hx-get="/todos" hx-trigger="load">
