@@ -263,7 +263,7 @@
             const currentTheme = htmlElement.getAttribute('data-theme');
             
             if (currentTheme === 'dark') {
-                htmlElement.setAttribute('data-theme', 'light');
+                htmlElement.removeAttribute('data-theme');
                 localStorage.setItem('theme', 'light');
                 themeIcon.textContent = '🌙';
                 themeText.textContent = 'Dark';
